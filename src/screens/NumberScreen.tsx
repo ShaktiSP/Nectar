@@ -17,7 +17,7 @@ import CountryPicker, {
   CountryCode,
 } from 'react-native-country-picker-modal';
 
-const NectarLoginScreen = () => {
+const NectarLoginScreen = ({ navigation }: any) => {
   const [fadeAnim] = useState(new Animated.Value(0));
   const [slideAnim] = useState(new Animated.Value(50));
 
@@ -60,89 +60,100 @@ const NectarLoginScreen = () => {
         showsVerticalScrollIndicator={false}
       >
         <View style={{ flex: 1 }}>
-        {/* Hero Image Section */}
+          {/* Hero Image Section */}
 
           <Image source={require('../assest/maskGroup.png')} />
-      
-        {/* Content Section */}
-        <Animated.View
-          style={[
-            styles.contentSection,
-            {
-              opacity: fadeAnim,
-              transform: [{ translateY: slideAnim }],
-            },
-          ]}
-        >
-          {/* Header */}
-          <View style={styles.header}>
-            <Text style={styles.title}>Get your groceries</Text>
-            <Text style={styles.subtitle}>with nectar</Text>
-          </View>
 
-          {/* Phone Input with Country Code */}
-          <View style={styles.phoneInputContainer}>
+          {/* Content Section */}
+          <Animated.View
+            style={[
+              styles.contentSection,
+              {
+                opacity: fadeAnim,
+                transform: [{ translateY: slideAnim }],
+              },
+            ]}
+          >
+            {/* Header */}
+            <View style={styles.header}>
+              <Text style={styles.title}>Get your groceries</Text>
+              <Text style={styles.subtitle}>with nectar</Text>
+            </View>
+
+            {/* Phone Input with Country Code */}
+            <View style={styles.phoneInputContainer}>
+              <TouchableOpacity
+                style={styles.countryCodeBox}
+                onPress={openCountryPicker}
+                activeOpacity={0.7}
+              >
+                <CountryPicker
+                  countryCode={countryCode}
+                  withFilter
+                  withFlagButton={true}
+                  withCallingCode
+                  withEmoji
+                  visible={pickerVisible}
+                  onSelect={onSelectCountry}
+                  onClose={() => setPickerVisible(false)}
+                />
+                <Text style={styles.callingCodeText}>+{callingCode}</Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                style={{ flex: 1 }}
+                activeOpacity={0.8}
+                onPress={() =>
+                  navigation.navigate('MobileNumberInput', {
+                    countryCode: countryCode,
+                    callingCode: callingCode,
+                  })
+                }
+              >
+                <TextInput
+                  style={styles.phoneInput}
+                  placeholder="Enter phone number"
+                  placeholderTextColor="#CCCCCC"
+                  editable={false}
+                  pointerEvents="none"
+                />
+              </TouchableOpacity>
+            </View>
+
+            {/* Social Auth Divider */}
+            <Text style={styles.dividerText}>Or connect with social media</Text>
+
+            {/* Google Sign In Button */}
             <TouchableOpacity
-              style={styles.countryCodeBox}
-              onPress={openCountryPicker}
-              activeOpacity={0.7}
+              style={styles.socialButton}
+              activeOpacity={0.85}
+              onPress={() => console.log('Google Sign In')}
             >
-              <CountryPicker
-                countryCode={countryCode}
-                withFilter
-                withFlagButton={true}
-                withCallingCode
-                withEmoji
-                visible={pickerVisible}
-                onSelect={onSelectCountry}
-                onClose={() => setPickerVisible(false)}
-              />
-              <Text style={styles.callingCodeText}>+{callingCode}</Text>
+              <Text style={styles.googleIcon}>G</Text>
+              <Text style={styles.socialButtonText}>Continue with Google</Text>
             </TouchableOpacity>
 
-            <TextInput
-              style={styles.phoneInput}
-              placeholder="Enter phone number"
-              placeholderTextColor="#CCCCCC"
-              value={phone}
-              onChangeText={setPhone}
-              keyboardType="phone-pad"
-              editable={true}
-            />
-          </View>
+            {/* Facebook Sign In Button */}
+            <TouchableOpacity
+              style={[styles.socialButton, styles.facebookButton]}
+              activeOpacity={0.85}
+              onPress={() => console.log('Facebook Sign In')}
+            >
+              <Text style={styles.facebookIcon}>f</Text>
+              <Text style={styles.socialButtonText}>
+                Continue with Facebook
+              </Text>
+            </TouchableOpacity>
 
-          {/* Social Auth Divider */}
-          <Text style={styles.dividerText}>Or connect with social media</Text>
-
-          {/* Google Sign In Button */}
-          <TouchableOpacity
-            style={styles.socialButton}
-            activeOpacity={0.85}
-            onPress={() => console.log('Google Sign In')}
-          >
-            <Text style={styles.googleIcon}>G</Text>
-            <Text style={styles.socialButtonText}>Continue with Google</Text>
-          </TouchableOpacity>
-
-          {/* Facebook Sign In Button */}
-          <TouchableOpacity
-            style={[styles.socialButton, styles.facebookButton]}
-            activeOpacity={0.85}
-            onPress={() => console.log('Facebook Sign In')}
-          >
-            <Text style={styles.facebookIcon}>f</Text>
-            <Text style={styles.socialButtonText}>Continue with Facebook</Text>
-          </TouchableOpacity>
-
-          {/* Terms and Privacy */}
-          <View style={styles.footer}>
-            <Text style={styles.footerText}>
-              By continuing you agree to our{' '}
-              <Text style={styles.link}>Terms of Service</Text> and{' '}
-              <Text style={styles.link}>Privacy Policy</Text>
-            </Text>
-          </View>
-        </Animated.View>
+            {/* Terms and Privacy */}
+            <View style={styles.footer}>
+              <Text style={styles.footerText}>
+                By continuing you agree to our{' '}
+                <Text style={styles.link}>Terms of Service</Text> and{' '}
+                <Text style={styles.link}>Privacy Policy</Text>
+              </Text>
+            </View>
+          </Animated.View>
         </View>
       </ScrollView>
     </SafeAreaView>

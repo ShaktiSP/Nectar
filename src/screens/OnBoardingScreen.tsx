@@ -15,7 +15,7 @@ interface Props {
 
 const OnboardingScreen: React.FC<Props> = ({ navigation }) => {
   const handleGetStarted = () => {
-    navigation?.replace('Home');
+    navigation?.replace('NumberScreen');
   };
 
   return (
@@ -24,31 +24,32 @@ const OnboardingScreen: React.FC<Props> = ({ navigation }) => {
         source={require('../assest/onboardingBG.png')}
         style={styles.background}
         resizeMode="cover"
-      >  
-          {/* Bottom Section */}
-          <View style={styles.bottomWrapper}>
-            <View style={styles.logo}>
-          <Image
-          source={require('../assest/carrot.png')}
-          style={styles.logo}
-          resizeMode="contain"/>
+      >
+        {/* Bottom Section */}
+        <View style={styles.bottomWrapper}>
+          <View style={styles.logo}>
+            <Image
+              source={require('../assest/carrot.png')}
+              style={styles.logo}
+              resizeMode="contain"
+            />
           </View>
 
           <Text style={styles.titleText}>Welcome</Text>
-            <Text style={styles.titleText}>to our store</Text>
-            {/* Text ABOVE button */}
-            <Text style={styles.bottomText}>
-              Get your groceries in as fast as one hour
-            </Text>
+          <Text style={styles.titleText}>to our store</Text>
+          {/* Text ABOVE button */}
+          <Text style={styles.bottomText}>
+            Get your groceries in as fast as one hour
+          </Text>
 
-            <TouchableOpacity
-              style={styles.button}
-              activeOpacity={0.85}
-              onPress={navigation.navigate('NumberScreen')}
-            >
-              <Text style={styles.buttonText}>Get Started</Text>
-            </TouchableOpacity>
-          </View>
+          <TouchableOpacity
+            style={styles.button}
+            activeOpacity={0.85}
+            onPress={handleGetStarted}
+          >
+            <Text style={styles.buttonText}>Get Started</Text>
+          </TouchableOpacity>
+        </View>
       </ImageBackground>
     </SafeAreaView>
   );
@@ -67,14 +68,13 @@ const styles = StyleSheet.create({
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    paddingBottom: 16,
   },
 
   /* Center text section */
   titleText: {
-    fontSize: 40,
+    fontSize: 30,
     textAlign: 'center',
-    fontWeight: '700',
+    fontWeight: '500',
     marginBottom: 16,
     color: '#FFFFFF',
     justifyContent: 'center',

@@ -10,7 +10,7 @@ const SplashScreen = ({ navigation }: any) => {
   useEffect(() => {
     const timer = setTimeout(() => {
       navigation?.replace('OnBoardingScreen');
-    }, 3000); // 1 sec
+    }, 5000); // 1 sec
 
     return () => clearTimeout(timer);
   }, [navigation]);
