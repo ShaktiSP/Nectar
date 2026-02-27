@@ -18,8 +18,6 @@ interface CodeInputScreenProps {
   onBackPress?: () => void;
 }
 
-
-
 const CodeInputScreen: React.FC<CodeInputScreenProps> = ({ 
   onCodeSubmit,
   navigation, 
@@ -61,24 +59,28 @@ const CodeInputScreen: React.FC<CodeInputScreenProps> = ({
     .join(' ');
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <StatusBar barStyle="dark-content" backgroundColor="#ffffff" />
+    <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="dark-content" backgroundColor="#edf2ed" />
+
       <LinearGradient
         colors={['#ffffff', '#f8f5ff', '#ffe8f5']}
         start={{ x: 0, y: 0 }}
         end={{ x: 1, y: 1 }}
         style={styles.gradientContainer}
       >
+        {/* Background Blobs */}
+        <View style={[styles.blob, styles.blobTL]} />
+        <View style={[styles.blob, styles.blobTR]} />
+        <View style={[styles.blob, styles.blobBL]} />
+        <View style={[styles.blob, styles.blobBR]} />
+        
         <KeyboardAvoidingView
           behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
           style={styles.keyboardView}
         >
           {/* Header with Back Button */}
           <View style={styles.header}>
-            <TouchableOpacity 
-              style={styles.backButton}
-              onPress={handleBack}
-            >
+            <TouchableOpacity style={styles.backButton} onPress={handleBack}>
               <Icon name="chevron-back" size={28} color="#333" />
             </TouchableOpacity>
           </View>
@@ -92,7 +94,7 @@ const CodeInputScreen: React.FC<CodeInputScreenProps> = ({
             <Text style={styles.codeLabel}>Code</Text>
 
             {/* Code Display Input - Tappable Area */}
-            <TouchableOpacity 
+            <TouchableOpacity
               style={styles.inputWrapper}
               onPress={() => {
                 inputRef.current?.focus();
@@ -113,22 +115,19 @@ const CodeInputScreen: React.FC<CodeInputScreenProps> = ({
               />
 
               {/* Code Display - Just Text with Dashes */}
-              <Text style={styles.codeDisplay}>
-                {codeDisplay}
-              </Text>
+              <Text style={styles.codeDisplay}>{codeDisplay}</Text>
             </TouchableOpacity>
-
           </View>
 
           {/* Footer - Resend Code and Submit Button */}
           <View style={styles.footer}>
-            <TouchableOpacity 
+            <TouchableOpacity
               onPress={handleResendCode}
               style={styles.resendButton}
             >
               <Text style={styles.resendText}>Resend Code</Text>
             </TouchableOpacity>
-            
+
             <TouchableOpacity
               style={[
                 styles.submitButton,
@@ -152,9 +151,42 @@ const CodeInputScreen: React.FC<CodeInputScreenProps> = ({
 };
 
 const styles = StyleSheet.create({
-  safeArea: {
+  container: {
     flex: 1,
-    backgroundColor: '#fff',
+    backgroundColor: '#f5f5f5',
+  },
+  // Blobs
+  blob: {
+    position: 'absolute',
+    borderRadius: 999,
+  },
+  blobTL: {
+    top: -70,
+    left: -70,
+    width: 220,
+    height: 220,
+    backgroundColor: 'rgba(150, 215, 175, 0.55)',
+  },
+  blobTR: {
+    top: 10,
+    right: -55,
+    width: 190,
+    height: 190,
+    backgroundColor: 'rgba(180, 200, 245, 0.45)',
+  },
+  blobBL: {
+    bottom: 70,
+    left: -45,
+    width: 170,
+    height: 170,
+    backgroundColor: 'rgba(245, 190, 165, 0.4)',
+  },
+  blobBR: {
+    bottom: -35,
+    right: -35,
+    width: 150,
+    height: 150,
+    backgroundColor: 'rgba(195, 240, 205, 0.38)',
   },
   gradientContainer: {
     flex: 1,
@@ -168,7 +200,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 16,
     paddingVertical: 12,
-
   },
   backButton: {
     width: 40,

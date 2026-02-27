@@ -6,11 +6,11 @@ import {
   TouchableOpacity,
   StyleSheet,
   Alert,
+  StatusBar,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Ionicons';
 import CountryPicker, {Country,CountryCode,} from 'react-native-country-picker-modal';
-
 
 export default function MobileNumberInput({route, navigation}: any) {
   const [mobileNumber, setMobileNumber] = useState('');
@@ -44,6 +44,14 @@ export default function MobileNumberInput({route, navigation}: any) {
 
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar barStyle="dark-content" backgroundColor="#edf2ed" />
+
+      {/* Background Blobs */}
+      <View style={[styles.blob, styles.blobTL]} />
+      <View style={[styles.blob, styles.blobTR]} />
+      <View style={[styles.blob, styles.blobBL]} />
+      <View style={[styles.blob, styles.blobBR]} />
+
       {/* Header */}
       <View style={styles.header}>
         <TouchableOpacity onPress={handleBackPress} style={styles.backButton}>
@@ -57,7 +65,6 @@ export default function MobileNumberInput({route, navigation}: any) {
 
         {/* Phone Input Section */}
         <View style={styles.inputContainer}>
-          
           {/* Country Picker Section */}
           <TouchableOpacity
             style={styles.countryCodeSection}
@@ -109,6 +116,42 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f5f5f5',
   },
+
+   // Blobs
+   blob: {
+    position: 'absolute',
+    borderRadius: 999,
+  },
+  blobTL: {
+    top: -70,
+    left: -70,
+    width: 220,
+    height: 220,
+    backgroundColor: 'rgba(150, 215, 175, 0.55)',
+  },
+  blobTR: {
+    top: 10,
+    right: -55,
+    width: 190,
+    height: 190,
+    backgroundColor: 'rgba(180, 200, 245, 0.45)',
+  },
+  blobBL: {
+    bottom: 70,
+    left: -45,
+    width: 170,
+    height: 170,
+    backgroundColor: 'rgba(245, 190, 165, 0.4)',
+  },
+  blobBR: {
+    bottom: -35,
+    right: -35,
+    width: 150,
+    height: 150,
+    backgroundColor: 'rgba(195, 240, 205, 0.38)',
+  },
+
+
   header: {
     paddingLeft: 16,
     paddingTop: 12,

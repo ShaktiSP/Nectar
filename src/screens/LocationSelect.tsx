@@ -13,7 +13,7 @@ import Icon from 'react-native-vector-icons/Ionicons';
 
 const { width, height } = Dimensions.get('window');
 
-const LocationSelector = () => {
+const LocationSelector = ({navigation}:any) => {
   const [selectedZone, setSelectedZone] = useState('Banarree');
   const [selectedArea, setSelectedArea] = useState('');
   const [zoneDropdownOpen, setZoneDropdownOpen] = useState(false);
@@ -25,6 +25,14 @@ const LocationSelector = () => {
     'Midtown',
     'Uptown',
     'Suburban',
+    'North Zone',
+    'South Zone',
+    'East Zone',
+    'West Zone',
+    'Central Zone',
+    'Industrial Zone',
+    'Market Area',
+    'Old City',
   ];
 
   const areas = [
@@ -32,6 +40,11 @@ const LocationSelector = () => {
     'Commercial',
     'Industrial',
     'Mixed Use',
+    'Corporate Area',
+    'Shopping Zone',
+    'School Area',
+    'Hospital Area',
+    'IT Park',
   ];
 
   return (
@@ -42,9 +55,11 @@ const LocationSelector = () => {
       >
         {/* Header with back button */}
         <View style={styles.header}>
-          <TouchableOpacity style={styles.backButton}>
+        <TouchableOpacity
+            style={styles.backButton}
+            onPress={() => navigation.goBack()}
+          >
             <Icon name="chevron-back" size={28} color="#000" />
-            onPress(navigation?.goBack()
           </TouchableOpacity>
           <View style={{ flex: 1 }} />
         </View>
@@ -163,6 +178,9 @@ const LocationSelector = () => {
         {/* Submit Button */}
         <TouchableOpacity style={styles.submitButton}>
           <Text style={styles.submitButtonText}>Submit</Text>
+          onPress={
+            navigation?.replace('LoginScreen')
+          }
         </TouchableOpacity>
       </ScrollView>
     </SafeAreaView>

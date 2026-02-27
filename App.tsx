@@ -7,6 +7,8 @@ import NectarLoginScreen from './src/screens/NumberScreen';
 import MobileNumberInput from './src/screens/MobileScreen';
 import CodeInputScreen from './src/screens/OtpScreen';
 import LocationSelector from './src/screens/LocationSelect';
+import LoginScreen from './src/screens/LoginScreen';
+import SignUpScreen from './src/screens/SignUpScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -56,6 +58,22 @@ export default function App() {
         <Stack.Screen
           name="LocationSelector"
           component={LocationSelector}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="LoginScreen"
+          component={LoginScreen}
+          options={{
+            headerShown: false,
+          }}
+        />
+
+        <Stack.Screen
+          name="SignUpScreen"
+          component={SignUpScreen}
           options={{
             headerShown: false,
           }}
