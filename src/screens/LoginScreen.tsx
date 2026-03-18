@@ -124,7 +124,7 @@ export default function LoginScreen({ navigation }: any) {
             activeOpacity={0.85}
             onPress={() => {
               console.log('Login pressed', navigation); // check this in Metro logs
-              navigation.navigate('BottomTabBarr');
+              navigation.navigate('BottomTabs');
             }}
           >
             <Text style={styles.loginBtnText}>Log In</Text>

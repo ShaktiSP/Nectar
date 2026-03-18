@@ -81,7 +81,7 @@ export default function App() {
         />
 
         <Stack.Screen 
-        name="BottomTabBarr" 
+        name="BottomTabs" 
         component={BottomTabBar}
          />
          

@@ -13,10 +13,42 @@ import Svg, { Path, Rect, Line, Circle, Polyline } from 'react-native-svg';
 
 const ShopIcon = ({ color }: { color: string }) => (
   <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
-    <Rect x="3" y="3" width="7" height="7" rx="1" stroke={color} strokeWidth="1.8" />
-    <Rect x="14" y="3" width="7" height="7" rx="1" stroke={color} strokeWidth="1.8" />
-    <Rect x="3" y="14" width="7" height="7" rx="1" stroke={color} strokeWidth="1.8" />
-    <Rect x="14" y="14" width="7" height="7" rx="1" stroke={color} strokeWidth="1.8" />
+    <Rect
+      x="3"
+      y="3"
+      width="7"
+      height="7"
+      rx="1"
+      stroke={color}
+      strokeWidth="1.8"
+    />
+    <Rect
+      x="14"
+      y="3"
+      width="7"
+      height="7"
+      rx="1"
+      stroke={color}
+      strokeWidth="1.8"
+    />
+    <Rect
+      x="3"
+      y="14"
+      width="7"
+      height="7"
+      rx="1"
+      stroke={color}
+      strokeWidth="1.8"
+    />
+    <Rect
+      x="14"
+      y="14"
+      width="7"
+      height="7"
+      rx="1"
+      stroke={color}
+      strokeWidth="1.8"
+    />
   </Svg>
 );
 
@@ -36,7 +68,15 @@ const ExploreIcon = ({ color }: { color: string }) => (
       strokeWidth="1.8"
       fill="none"
     />
-    <Line x1="16.5" y1="16.5" x2="21" y2="21" stroke={color} strokeWidth="1.8" strokeLinecap="round" />
+    <Line
+      x1="16.5"
+      y1="16.5"
+      x2="21"
+      y2="21"
+      stroke={color}
+      strokeWidth="1.8"
+      strokeLinecap="round"
+    />
   </Svg>
 );
 
@@ -53,7 +93,13 @@ const CartIcon = ({ color }: { color: string }) => (
   </Svg>
 );
 
-const FavouriteIcon = ({ color, filled }: { color: string; filled?: boolean }) => (
+const FavouriteIcon = ({
+  color,
+  filled,
+}: {
+  color: string;
+  filled?: boolean;
+}) => (
   <Svg width={24} height={24} viewBox="0 0 24 24" fill="none">
     <Path
       d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"
@@ -89,16 +135,21 @@ const TABS: { key: TabKey; label: string }[] = [
   { key: 'Account', label: 'Account' },
 ];
 
-const ACTIVE_COLOR = '#2E7D32';   // green
+const ACTIVE_COLOR = '#2E7D32'; // green
 const INACTIVE_COLOR = '#1A1A1A'; // near-black
 
 function TabIcon({ tabKey, color }: { tabKey: TabKey; color: string }) {
   switch (tabKey) {
-    case 'Shop':      return <ShopIcon color={color} />;
-    case 'Explore':   return <ExploreIcon color={color} />;
-    case 'Cart':      return <CartIcon color={color} />;
-    case 'Favourite': return <FavouriteIcon color={color} />;
-    case 'Account':   return <AccountIcon color={color} />;
+    case 'Shop':
+      return <ShopIcon color={color} />;
+    case 'Explore':
+      return <ExploreIcon color={color} />;
+    case 'Cart':
+      return <CartIcon color={color} />;
+    case 'Favourite':
+      return <FavouriteIcon color={color} />;
+    case 'Account':
+      return <AccountIcon color={color} />;
   }
 }
 
@@ -108,24 +159,35 @@ export default function BottomTabBar() {
   const [activeTab, setActiveTab] = useState<TabKey>('Shop');
 
   return (
-    <View style={styles.safeArea}>
-      <View style={styles.container}>
-        {TABS.map((tab) => {
-          const isActive = activeTab === tab.key;
-          const color = isActive ? ACTIVE_COLOR : INACTIVE_COLOR;
+    <View style={styles.screenContainer}>
+      {/* Tab Content Area */}
+      <View style={styles.contentArea}>
+        <Text style={styles.tabTitle}>{activeTab}</Text>
+        <Text style={styles.tabSubtitle}>
+          This is the {activeTab.toLowerCase()} screen content.
+        </Text>
+      </View>
 
-          return (
-            <TouchableOpacity
-              key={tab.key}
-              style={styles.tab}
-              onPress={() => setActiveTab(tab.key)}
-              activeOpacity={0.7}
-            >
-              <TabIcon tabKey={tab.key} color={color} />
-              <Text style={[styles.label, { color }]}>{tab.label}</Text>
-            </TouchableOpacity>
-          );
-        })}
+      {/* Bottom Tab Bar */}
+      <View style={styles.safeArea}>
+        <View style={styles.container}>
+          {TABS.map(tab => {
+            const isActive = activeTab === tab.key;
+            const color = isActive ? ACTIVE_COLOR : INACTIVE_COLOR;
+
+            return (
+              <TouchableOpacity
+                key={tab.key}
+                style={styles.tab}
+                onPress={() => setActiveTab(tab.key)}
+                activeOpacity={0.7}
+              >
+                <TabIcon tabKey={tab.key} color={color} />
+                <Text style={[styles.label, { color }]}>{tab.label}</Text>
+              </TouchableOpacity>
+            );
+          })}
+        </View>
       </View>
     </View>
   );
@@ -134,22 +196,43 @@ export default function BottomTabBar() {
 // ─── Styles ────────────────────────────────────────────────────────────────────
 
 const styles = StyleSheet.create({
+  screenContainer: {
+    flex: 1,
+    backgroundColor: '#FFFFFF',
+  },
+  contentArea: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingHorizontal: 20,
+  },
+  tabTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#181725',
+    marginBottom: 8,
+  },
+  tabSubtitle: {
+    fontSize: 16,
+    color: '#7C7C7C',
+    textAlign: 'center',
+  },
   safeArea: {
     backgroundColor: '#FFFFFF',
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
+    // Add shadow/elevation to separate from content
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: -3 },
+    shadowOpacity: 0.1,
+    shadowRadius: 5,
+    elevation: 20,
+    paddingBottom: Platform.OS === 'ios' ? 25 : 10,
   },
   container: {
     flexDirection: 'row',
     height: 64,
     backgroundColor: '#FFFFFF',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
-    // Shadow (iOS)
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: -2 },
-    shadowOpacity: 0.06,
-    shadowRadius: 8,
-    // Elevation (Android)
-    elevation: 10,
     paddingHorizontal: 8,
   },
   tab: {
