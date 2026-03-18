@@ -119,7 +119,14 @@ export default function LoginScreen({ navigation }: any) {
           </TouchableOpacity>
 
           {/* Login Button */}
-          <TouchableOpacity style={styles.loginBtn} activeOpacity={0.85}>
+          <TouchableOpacity
+            style={styles.loginBtn}
+            activeOpacity={0.85}
+            onPress={() => {
+              console.log('Login pressed', navigation); // check this in Metro logs
+              navigation.navigate('BottomTabBarr');
+            }}
+          >
             <Text style={styles.loginBtnText}>Log In</Text>
           </TouchableOpacity>
 

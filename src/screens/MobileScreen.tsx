@@ -43,7 +43,7 @@ export default function MobileNumberInput({route, navigation}: any) {
   };
 
   return (
-    <SafeAreaView style={styles.container}>
+    <SafeAreaView style={styles.container} edges={['top']}>
       <StatusBar barStyle="dark-content" backgroundColor="#edf2ed" />
 
       {/* Background Blobs */}
@@ -54,7 +54,7 @@ export default function MobileNumberInput({route, navigation}: any) {
 
       {/* Header */}
       <View style={styles.header}>
-        <TouchableOpacity onPress={handleBackPress} style={styles.backButton}>
+        <TouchableOpacity onPress={handleBackPress} style={styles.backButton}>~
           <Icon name="chevron-back" size={28} color="#000" />
         </TouchableOpacity>
       </View>

@@ -9,6 +9,7 @@ import CodeInputScreen from './src/screens/OtpScreen';
 import LocationSelector from './src/screens/LocationSelect';
 import LoginScreen from './src/screens/LoginScreen';
 import SignUpScreen from './src/screens/SignUpScreen';
+import BottomTabBar from './src/screens/BottomTabBar';
 
 const Stack = createNativeStackNavigator();
 
@@ -78,6 +79,12 @@ export default function App() {
             headerShown: false,
           }}
         />
+
+        <Stack.Screen 
+        name="BottomTabBarr" 
+        component={BottomTabBar}
+         />
+         
       </Stack.Navigator>
     </NavigationContainer>
   );
