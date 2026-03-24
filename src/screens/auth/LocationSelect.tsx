@@ -67,7 +67,7 @@ const LocationSelector = ({navigation}:any) => {
         {/* Illustration Image */}
         <View style={styles.imageContainer}>
           <Image
-            source={require('../assest/illustration.png')}
+            source={require('../../assets/illustration.png')}
             resizeMode="contain"
             style={styles.image}
           />

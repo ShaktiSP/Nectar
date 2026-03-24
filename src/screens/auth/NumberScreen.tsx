@@ -62,7 +62,7 @@ const NectarLoginScreen = ({ navigation }: any) => {
         <View style={{ flex: 1 }}>
           {/* Hero Image Section */}
 
-          <Image source={require('../assest/maskGroup.png')} />
+          <Image source={require('../../assets/maskGroup.png')} />
 
           {/* Content Section */}
           <Animated.View

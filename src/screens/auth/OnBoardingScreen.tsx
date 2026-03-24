@@ -8,36 +8,39 @@ import {
   SafeAreaView,
   Image,
 } from 'react-native';
+import { useAppDispatch } from '../redux/hooks';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { setOnboardingCompleted } from '../redux/appSlice';
 
-interface Props {
-  navigation?: any;
-}
+const OnboardingScreen = ({ navigation }) => {
+  const dispatch = useAppDispatch();
 
-const OnboardingScreen: React.FC<Props> = ({ navigation }) => {
   const handleGetStarted = () => {
+    AsyncStorage.setItem('onboardingDone', 'true');
+    dispatch(setOnboardingCompleted(true));
     navigation?.replace('NumberScreen');
   };
 
   return (
     <SafeAreaView style={styles.container}>
       <ImageBackground
-        source={require('../assest/onboardingBG.png')}
+        source={require('../../assets/onboardingBG.png')}
         style={styles.background}
         resizeMode="cover"
       >
-        {/* Bottom Section */}
         <View style={styles.bottomWrapper}>
-          <View style={styles.logo}>
+
+          <View style={styles.logoContainer}>
             <Image
-              source={require('../assest/carrot.png')}
-              style={styles.logo}
+               source={require('../../assets/carrot.png')}
+              style={styles.logoImage}
               resizeMode="contain"
             />
           </View>
 
           <Text style={styles.titleText}>Welcome</Text>
           <Text style={styles.titleText}>to our store</Text>
-          {/* Text ABOVE button */}
+
           <Text style={styles.bottomText}>
             Get your groceries in as fast as one hour
           </Text>
@@ -49,6 +52,7 @@ const OnboardingScreen: React.FC<Props> = ({ navigation }) => {
           >
             <Text style={styles.buttonText}>Get Started</Text>
           </TouchableOpacity>
+
         </View>
       </ImageBackground>
     </SafeAreaView>
@@ -64,35 +68,32 @@ const styles = StyleSheet.create({
   background: {
     flex: 1,
   },
-  logo: {
-    display: 'flex',
-    justifyContent: 'center',
+
+  logoContainer: {
     alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 16,
+  },
+  logoImage: {
+    width: 80,
+    height: 80,
   },
 
-  /* Center text section */
   titleText: {
     fontSize: 30,
     textAlign: 'center',
     fontWeight: '500',
     marginBottom: 16,
     color: '#FFFFFF',
-    justifyContent: 'center',
     elevation: 8,
     lineHeight: 30,
   },
 
-  /* Bottom section */
   bottomWrapper: {
     flex: 1,
     justifyContent: 'flex-end',
     paddingHorizontal: 16,
     paddingBottom: 10,
-  },
-
-  bottom: {
-    marginBottom: 80,
-    paddingHorizontal: 24,
   },
   bottomText: {
     color: '#FFFFFF',

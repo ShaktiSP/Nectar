@@ -12,7 +12,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Icon from 'react-native-vector-icons/Ionicons';
 import CountryPicker, {Country,CountryCode,} from 'react-native-country-picker-modal';
 
-export default function MobileNumberInput({route, navigation}: any) {
+export default function    MobileNumberInput({route, navigation}: any) {
   const [mobileNumber, setMobileNumber] = useState('');
 
   const [countryCode, setCountryCode] = useState<CountryCode>(

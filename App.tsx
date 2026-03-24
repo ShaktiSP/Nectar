@@ -1,91 +1,28 @@
-import React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import SplashScreen from './src/screens/SplashScreen';
-import OnBoardingScreen from './src/screens/OnBoardingScreen';
-import NectarLoginScreen from './src/screens/NumberScreen';
-import MobileNumberInput from './src/screens/MobileScreen';
-import CodeInputScreen from './src/screens/OtpScreen';
-import LocationSelector from './src/screens/LocationSelect';
-import LoginScreen from './src/screens/LoginScreen';
-import SignUpScreen from './src/screens/SignUpScreen';
-import BottomTabBar from './src/screens/BottomTabBar';
-
-const Stack = createNativeStackNavigator();
+import React, { useState, useEffect } from 'react';
+import { Provider } from 'react-redux';
+import { store } from './src/screens/redux/store';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import AuthNavigator from './src/navigation/AuthNavigator';
+import AppNavigator from './src/navigation/AppNavigator';
 
 export default function App() {
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean | null>(null);
+
+  useEffect(() => {
+    const checkLoginStatus = async () => {
+      const login = await AsyncStorage.getItem('isLoggedIn');
+      setIsLoggedIn(login === 'true');
+    };
+
+    checkLoginStatus();
+  }, []);
+
+  // Avoid rendering navigators until the check is complete
+  if (isLoggedIn === null) return null;
+
   return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen
-          name="SplashScreen"
-          component={SplashScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-        <Stack.Screen
-          name="OnBoardingScreen"
-          component={OnBoardingScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-
-        <Stack.Screen
-          name="NumberScreen"
-          component={NectarLoginScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-
-        <Stack.Screen
-          name="MobileNumberInput"
-          component={MobileNumberInput}
-          options={{
-            headerShown: false,
-          }}
-        />
-
-        <Stack.Screen
-          name="CodeInputScreen"
-          component={CodeInputScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-
-        <Stack.Screen
-          name="LocationSelector"
-          component={LocationSelector}
-          options={{
-            headerShown: false,
-          }}
-        />
-
-        <Stack.Screen
-          name="LoginScreen"
-          component={LoginScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-
-        <Stack.Screen
-          name="SignUpScreen"
-          component={SignUpScreen}
-          options={{
-            headerShown: false,
-          }}
-        />
-
-        <Stack.Screen 
-        name="BottomTabs" 
-        component={BottomTabBar}
-         />
-         
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Provider store={store}>
+      {isLoggedIn ? <AppNavigator /> : <AuthNavigator />}
+    </Provider>
   );
 }
