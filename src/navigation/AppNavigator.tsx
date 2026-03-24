@@ -2,11 +2,9 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-
 import { Provider } from 'react-redux';
 import BottomTabBar from '../screens/BottomTabBar';
 import { store } from '../screens/redux/store';
-
 
 const Stack = createNativeStackNavigator();
 
@@ -19,7 +17,7 @@ export default function AppNavigator() {
             name="BottomTabs"
             component={BottomTabBar}
             options={{ headerShown: false }}
-          />ZZ
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

@@ -19,7 +19,7 @@ export default function App() {
 
   // Avoid rendering navigators until the check is complete
   if (isLoggedIn === null) return null;
-
+console.log("jdjjjd",isLoggedIn)
   return (
     <Provider store={store}>
       {isLoggedIn ? <AppNavigator /> : <AuthNavigator />}

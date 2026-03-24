@@ -1,3 +1,4 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState } from 'react';
 import {
   View,
@@ -124,6 +125,7 @@ export default function LoginScreen({ navigation }: any) {
             activeOpacity={0.85}
             onPress={() => {
               console.log('Login pressed', navigation); // check this in Metro logs
+              AsyncStorage.setItem('isLoggedIn', 'true');
               navigation.navigate('BottomTabs');
             }}
           >
