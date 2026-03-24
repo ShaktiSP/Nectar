@@ -12,7 +12,7 @@ export default function AppNavigator() {
   return (
     <Provider store={store}>
       <NavigationContainer>
-        <Stack.Navigator initialRouteName="SplashScreen">
+        <Stack.Navigator>
         <Stack.Screen
             name="BottomTabs"
             component={BottomTabBar}

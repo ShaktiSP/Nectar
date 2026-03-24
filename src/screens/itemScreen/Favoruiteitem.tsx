@@ -102,17 +102,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProductListItem;
-
-
-// ─── Usage Example ───────────────────────────────────────────────────────────
-//
-// import ProductListItem from './ProductListItem';
-//
-// <ProductListItem
-//   name="Sprite Can"
-//   volume="325ml"
-//   price={1.50}
-//   imageUri="https://your-cdn.com/sprite-can.png"
-//   onPress={() => console.log('Sprite tapped')}
-// />
+export default FavoruiteItem;

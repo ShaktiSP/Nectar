@@ -7,10 +7,11 @@ import {
   TouchableOpacity,
   FlatList,
   TextInput,
-  SafeAreaView,
+  
   Dimensions,
 } from 'react-native';
 import FindProduceScreen from '../itemScreen/findProductScreen';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 
 // ─── Types ─────────────────────────────────────────────────────────────────────
@@ -79,7 +80,7 @@ const CATEGORIES: Category[] = [
 
 // ─── ExploreScreen ─────────────────────────────────────────────────────────────
 const ExploreScreen = () => {
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState<string>('');
 
 
   const handlePress = (item: Category) => {

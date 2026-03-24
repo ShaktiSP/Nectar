@@ -14,6 +14,7 @@ import CodeInputScreen from '../screens/auth/OtpScreen';
 import SignUpScreen from '../screens/auth/SignUpScreen';
 import SplashScreen from '../screens/auth/SplashScreen';
 import { store } from '../screens/redux/store';
+import BottomTabBar from '../screens/BottomTabBar';
 
 const Stack = createNativeStackNavigator();
 
@@ -62,7 +63,7 @@ export default function AuthNavigator() {
             component={SignUpScreen}
             options={{ headerShown: false }}
           />
-         
+
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

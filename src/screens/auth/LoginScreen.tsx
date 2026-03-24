@@ -1,5 +1,5 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, { useState } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import {
   View,
   Text,
@@ -12,6 +12,8 @@ import {
   Platform,
   ScrollView,
 } from 'react-native';
+import { useAppDispatch } from '../redux/hooks';
+import { setLoggedIn } from '../redux/appSlice';
 // ── Carrot Logo (no external package needed) ─────────────────────
 const CarrotLogo = () => (
   <Text style={{ fontSize: 52, lineHeight: 60 }}>🥕</Text>
@@ -33,6 +35,7 @@ export default function LoginScreen({ navigation }: any) {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [emailFocused, setEmailFocused] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
+  const dispatch = useAppDispatch();
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -126,6 +129,7 @@ export default function LoginScreen({ navigation }: any) {
             onPress={() => {
               console.log('Login pressed', navigation); // check this in Metro logs
               AsyncStorage.setItem('isLoggedIn', 'true');
+              dispatch(setLoggedIn(true));
               navigation.navigate('BottomTabs');
             }}
           >
