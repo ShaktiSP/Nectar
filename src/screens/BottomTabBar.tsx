@@ -11,6 +11,7 @@ import ExploreScreen from './dashBoardScreen/ExploreScreen';
 import CartScreen from './dashBoardScreen/CartScreen';
 import FavoruriteScreen from './dashBoardScreen/favouriteScreen';
 import AccountScreen from './dashBoardScreen/AccountScreen';
+import ShopScreen from './dashBoardScreen/ShopScreen';
 
 
 // ─── SVG Icon Components ───────────────────────────────────────────────────────
@@ -90,6 +91,7 @@ function TabIcon({ tabKey, color }: { tabKey: TabKey; color: string }) {
 
 function renderScreen(tab: TabKey) {
   switch (tab) {
+    case 'Shop': return <ShopScreen />;
     case 'Explore':   return <ExploreScreen />;
     case 'Cart':      return <CartScreen/>;
     case 'Favourite':     return <FavoruriteScreen/>;

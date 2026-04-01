@@ -7,7 +7,6 @@ import {
   TouchableOpacity,
   FlatList,
   TextInput,
-  
   Dimensions,
 } from 'react-native';
 import FindProduceScreen from '../itemScreen/findProductScreen';
@@ -81,7 +80,6 @@ const CATEGORIES: Category[] = [
 // ─── ExploreScreen ─────────────────────────────────────────────────────────────
 const ExploreScreen = () => {
   const [search, setSearch] = useState<string>('');
-
 
   const handlePress = (item: Category) => {
     // Wire up navigation here e.g.:
