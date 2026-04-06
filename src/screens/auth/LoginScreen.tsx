@@ -14,21 +14,21 @@ import {
 } from 'react-native';
 import { useAppDispatch } from '../redux/hooks';
 import { setLoggedIn } from '../redux/appSlice';
-// ── Carrot Logo (no external package needed) ─────────────────────
+import { fp, hp, wp } from '../../appUtils/Dimensions';
+
+
 const CarrotLogo = () => (
-  <Text style={{ fontSize: 52, lineHeight: 60 }}>🥕</Text>
+  <Text style={{ fontSize: fp(6.5), lineHeight: hp(7.5) }}>🥕</Text>
 );
 
-// ── Eye Icons ────────────────────────────────────────────────────
 const EyeOffIcon = () => (
-  <Text style={{ fontSize: 16, color: '#bbb' }}>🙈</Text>
+  <Text style={{ fontSize: fp(2), color: '#bbb' }}>🙈</Text>
 );
 
 const EyeOnIcon = () => (
-  <Text style={{ fontSize: 16, color: '#5cb85c' }}>👁️</Text>
+  <Text style={{ fontSize: fp(2), color: '#5cb85c' }}>👁️</Text>
 );
 
-// ── Main Screen ──────────────────────────────────────────────────
 export default function LoginScreen({ navigation }: any) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -41,7 +41,6 @@ export default function LoginScreen({ navigation }: any) {
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="dark-content" backgroundColor="#edf2ed" />
 
-      {/* Background Blobs */}
       <View style={[styles.blob, styles.blobTL]} />
       <View style={[styles.blob, styles.blobTR]} />
       <View style={[styles.blob, styles.blobBL]} />
@@ -56,24 +55,16 @@ export default function LoginScreen({ navigation }: any) {
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          {/* Logo */}
           <View style={styles.logoContainer}>
             <CarrotLogo />
           </View>
 
-          {/* Title */}
           <Text style={styles.title}>Login</Text>
           <Text style={styles.subtitle}>Enter your email and password</Text>
 
-          {/* Email Input */}
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Email</Text>
-            <View
-              style={[
-                styles.inputWrap,
-                emailFocused && styles.inputWrapFocused,
-              ]}
-            >
+            <View style={[styles.inputWrap, emailFocused && styles.inputWrapFocused]}>
               <TextInput
                 style={styles.input}
                 value={email}
@@ -88,15 +79,9 @@ export default function LoginScreen({ navigation }: any) {
             </View>
           </View>
 
-          {/* Password Input */}
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Password</Text>
-            <View
-              style={[
-                styles.inputWrap,
-                passwordFocused && styles.inputWrapFocused,
-              ]}
-            >
+            <View style={[styles.inputWrap, passwordFocused && styles.inputWrapFocused]}>
               <TextInput
                 style={[styles.input, { flex: 1 }]}
                 value={password}
@@ -117,17 +102,14 @@ export default function LoginScreen({ navigation }: any) {
             </View>
           </View>
 
-          {/* Forgot Password */}
           <TouchableOpacity style={styles.forgotContainer} activeOpacity={0.7}>
             <Text style={styles.forgotText}>Forgot Password?</Text>
           </TouchableOpacity>
 
-          {/* Login Button */}
           <TouchableOpacity
             style={styles.loginBtn}
             activeOpacity={0.85}
             onPress={() => {
-              console.log('Login pressed', navigation); // check this in Metro logs
               AsyncStorage.setItem('isLoggedIn', 'true');
               dispatch(setLoggedIn(true));
               navigation.navigate('BottomTabs');
@@ -136,16 +118,9 @@ export default function LoginScreen({ navigation }: any) {
             <Text style={styles.loginBtnText}>Log In</Text>
           </TouchableOpacity>
 
-          {/* Signup Row */}
           <View style={styles.signupRow}>
             <Text style={styles.signupText}>Don't have an account? </Text>
-            <TouchableOpacity
-              activeOpacity={0.7}
-              onPress={() => {
-                console.log('Signup pressed', navigation); // check this in Metro logs
-                navigation.navigate('SignUpScreen');
-              }}
-            >
+            <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('SignUpScreen')}>
               <Text style={styles.signupLink}>Signup</Text>
             </TouchableOpacity>
           </View>
@@ -155,7 +130,6 @@ export default function LoginScreen({ navigation }: any) {
   );
 }
 
-// ── Styles ───────────────────────────────────────────────────────
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
@@ -166,9 +140,9 @@ const styles = StyleSheet.create({
   },
   scrollContent: {
     flexGrow: 1,
-    paddingHorizontal: 30,
-    paddingTop: 60,
-    paddingBottom: 40,
+    paddingHorizontal: wp(7.5),  
+    paddingTop: hp(7.5),          
+    paddingBottom: hp(5),        
   },
 
   // Blobs
@@ -177,63 +151,63 @@ const styles = StyleSheet.create({
     borderRadius: 999,
   },
   blobTL: {
-    top: -70,
-    left: -70,
-    width: 220,
-    height: 220,
+    top: hp(-8.75),
+    left: wp(-17.5),
+    width: wp(55),
+    height: wp(55),
     backgroundColor: 'rgba(150, 215, 175, 0.55)',
   },
   blobTR: {
-    top: 10,
-    right: -55,
-    width: 190,
-    height: 190,
+    top: hp(1.25),
+    right: wp(-13.75),
+    width: wp(47.5),
+    height: wp(47.5),
     backgroundColor: 'rgba(180, 200, 245, 0.45)',
   },
   blobBL: {
-    bottom: 70,
-    left: -45,
-    width: 170,
-    height: 170,
+    bottom: hp(8.75),
+    left: wp(-11.25),
+    width: wp(42.5),
+    height: wp(42.5),
     backgroundColor: 'rgba(245, 190, 165, 0.4)',
   },
   blobBR: {
-    bottom: -35,
-    right: -35,
-    width: 150,
-    height: 150,
+    bottom: hp(-4.375),
+    right: wp(-8.75),
+    width: wp(37.5),
+    height: wp(37.5),
     backgroundColor: 'rgba(195, 240, 205, 0.38)',
   },
 
   // Logo
   logoContainer: {
     alignItems: 'center',
-    marginBottom: 32,
+    marginBottom: hp(4),          
   },
 
   // Title
   title: {
-    fontSize: 26,
+    fontSize: fp(3.25),           
     fontWeight: '800',
     color: '#1a1a1a',
-    marginBottom: 4,
+    marginBottom: hp(0.5),
   },
   subtitle: {
-    fontSize: 12.5,
+    fontSize: fp(1.5),            
     color: '#aaa',
     fontWeight: '500',
-    marginBottom: 32,
+    marginBottom: hp(4),
   },
 
   // Input
   inputGroup: {
-    marginBottom: 22,
+    marginBottom: hp(2.75),       
   },
   label: {
-    fontSize: 11.5,
+    fontSize: fp(1.4),            
     color: '#888',
     fontWeight: '600',
-    marginBottom: 8,
+    marginBottom: hp(1),
     letterSpacing: 0.3,
   },
   inputWrap: {
@@ -246,25 +220,25 @@ const styles = StyleSheet.create({
     borderBottomColor: '#5cb85c',
   },
   input: {
-    paddingVertical: 10,
-    fontSize: 14.5,
+    paddingVertical: hp(1.25),    
+    fontSize: fp(1.8),           
     color: '#1a1a1a',
     fontWeight: '600',
   },
   eyeBtn: {
-    paddingLeft: 10,
-    paddingVertical: 4,
+    paddingLeft: wp(2.5),
+    paddingVertical: hp(0.5),
     justifyContent: 'center',
   },
 
   // Forgot
   forgotContainer: {
     alignItems: 'flex-end',
-    marginTop: 6,
-    marginBottom: 30,
+    marginTop: hp(0.75),
+    marginBottom: hp(3.75),
   },
   forgotText: {
-    fontSize: 12.5,
+    fontSize: fp(1.5),
     color: '#777',
     fontWeight: '600',
   },
@@ -273,18 +247,18 @@ const styles = StyleSheet.create({
   loginBtn: {
     backgroundColor: '#5cb85c',
     borderRadius: 50,
-    paddingVertical: 16,
+    paddingVertical: hp(2),       
     alignItems: 'center',
-    marginBottom: 24,
+    marginBottom: hp(3),
     shadowColor: '#5cb85c',
-    shadowOffset: { width: 0, height: 8 },
+    shadowOffset: { width: 0, height: hp(1) },
     shadowOpacity: 0.38,
     shadowRadius: 16,
     elevation: 8,
   },
   loginBtnText: {
     color: '#fff',
-    fontSize: 15,
+    fontSize: fp(1.875),          
     fontWeight: '700',
     letterSpacing: 0.3,
   },
@@ -296,12 +270,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   signupText: {
-    fontSize: 12.5,
+    fontSize: fp(1.5),
     color: '#bbb',
     fontWeight: '500',
   },
   signupLink: {
-    fontSize: 12.5,
+    fontSize: fp(1.5),
     color: '#5cb85c',
     fontWeight: '700',
   },

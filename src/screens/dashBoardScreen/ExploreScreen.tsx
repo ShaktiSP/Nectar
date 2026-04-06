@@ -12,7 +12,6 @@ import {
 import FindProduceScreen from '../itemScreen/findProductScreen';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
-
 // ─── Types ─────────────────────────────────────────────────────────────────────
 interface Category {
   id: string;

@@ -42,7 +42,6 @@ const NUTRITION: NutritionItem[] = [
 ];
 
 // --- Sub-components ---
-
 const TopBar = ({
   onBack,
   onShare,
@@ -176,7 +175,7 @@ const ReviewRow = ({
 
 // --- Main Screen ---
 
-const ProductDetailScreen: React.FC = () => {
+const ProductDetails: React.FC = () => {
   const [quantity, setQuantity] = useState(1);
   const [wishlist, setWishlist] = useState(false);
   const [nutritionExpanded, setNutritionExpanded] = useState(false);
@@ -284,6 +283,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#f2f3f5',
   },
+
   scrollView: {
     flex: 1,
   },
@@ -301,6 +301,7 @@ const styles = StyleSheet.create({
     paddingBottom: 8,
     backgroundColor: '#f2f3f5',
   },
+
   iconButton: {
     width: 38,
     height: 38,
@@ -313,11 +314,13 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     elevation: 3,
   },
+
   backArrow: {
     fontSize: 26,
     color: '#222',
     lineHeight: 28,
   },
+
   shareIcon: {
     fontSize: 16,
     color: '#222',
@@ -329,6 +332,7 @@ const styles = StyleSheet.create({
     paddingVertical: 16,
     backgroundColor: '#f2f3f5',
   },
+
   imageBorder: {
     borderWidth: 2,
     borderColor: '#4CAF50',
@@ -338,23 +342,28 @@ const styles = StyleSheet.create({
     height: width * 0.55,
     backgroundColor: '#fff',
   },
+
   productImage: {
     width: '100%',
     height: '100%',
   },
+
   dotsRow: {
     flexDirection: 'row',
     marginTop: 12,
     gap: 6,
   },
+
   dot: {
     height: 8,
     borderRadius: 4,
   },
+
   dotActive: {
     width: 24,
     backgroundColor: '#4CAF50',
   },
+
   dotInactive: {
     width: 8,
     backgroundColor: '#ccc',
@@ -388,11 +397,13 @@ const styles = StyleSheet.create({
     color: '#1a1a1a',
     letterSpacing: -0.3,
   },
+
   productMeta: {
     fontSize: 13,
     color: '#999',
     marginTop: 3,
   },
+  
   heartButton: {
     width: 38,
     height: 38,
@@ -574,7 +585,7 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ProductDetailScreen;
+export default ProductDetails;
 
 function alert(arg0: string) {
   throw new Error('Function not implemented.');

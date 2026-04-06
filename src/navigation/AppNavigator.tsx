@@ -1,26 +1,27 @@
 import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-
-import { Provider } from 'react-redux';
 import BottomTabBar from '../screens/BottomTabBar';
-import { store } from '../screens/redux/store';
+import ProductDetails from '../screens/dashBoardScreen/ProductDetails';
 
 const Stack = createNativeStackNavigator();
 
 export default function AppNavigator() {
   return (
-    <Provider store={store}>
-      <NavigationContainer>
-        <Stack.Navigator>
+
+    <NavigationContainer>
+      <Stack.Navigator>
         <Stack.Screen
-            name="BottomTabs"
-            component={BottomTabBar}
-            options={{ headerShown: false }}
-          />
-        </Stack.Navigator>
-      </NavigationContainer>
-    </Provider>
+          name="BottomTabs"
+          component={BottomTabBar}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="ProductDetail"
+          component={ProductDetails}
+          options={{ headerShown: false }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
-   
-}   
+}

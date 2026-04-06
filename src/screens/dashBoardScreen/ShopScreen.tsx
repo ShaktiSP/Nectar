@@ -11,6 +11,7 @@ import {
   ScrollView,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 import ProductCard from '../itemScreen/ProductCardItem';
 
 const { width: SCREEN_WIDTH } = Dimensions.get('window');
@@ -54,6 +55,7 @@ const ShopScreen = () => {
   const [search, setSearch] = useState<string>('');
   const [activeIndex, setActiveIndex] = useState(0);
   const flatListRef = useRef<FlatList>(null);
+  const navigation = useNavigation<any>();
 
   const onViewableItemsChanged = useRef(({ viewableItems }: any) => {
     if (viewableItems.length > 0) {
@@ -64,6 +66,11 @@ const ShopScreen = () => {
   const viewabilityConfig = useRef({
     itemVisiblePercentThreshold: 50,
   }).current;
+
+  // ✅ Navigate to ProductDetail, passing item data as params
+  const handleProductPress = (item: Banner) => {
+    navigation.navigate('ProductDetail', { product: item });
+  };
 
   const renderBanner = ({ item }: { item: Banner }) => (
     <View
@@ -76,10 +83,6 @@ const ShopScreen = () => {
       />
     </View>
   );
-
-  function handlePress(item: Banner): void {
-    throw new Error('Function not implemented.');
-  }
 
   return (
     <SafeAreaView style={styles.safeArea}>
@@ -146,11 +149,11 @@ const ShopScreen = () => {
           </View>
         </View>
 
+        {/* Exclusive Offer */}
         <View style={styles.textRow}>
-          <Text style={styles.locationIcon}>Exclusive Offer</Text>
-          <Text style={styles.locationText}>See all</Text>
+          <Text style={styles.sectionTitle}>Exclusive Offer</Text>
+          <Text style={styles.seeAll}>See all</Text>
         </View>
-
         <FlatList
           data={banners}
           keyExtractor={item => item.id}
@@ -159,17 +162,19 @@ const ShopScreen = () => {
           contentContainerStyle={styles.listContainer}
           ListEmptyComponent={
             <View style={styles.emptyBox}>
-              <Text style={styles.emptyText}>No categories found 🥲</Text>
+              <Text style={styles.emptyText}>No categories found</Text>
             </View>
           }
-          renderItem={({ item }) => <ProductCard />}
+          renderItem={({ item }) => (
+            <ProductCard onPress={() => handleProductPress(item)} />
+          )}
         />
 
+        {/*Best Selling */}
         <View style={styles.textRow}>
-          <Text style={styles.locationIcon}>Best Selling</Text>
-          <Text style={styles.locationText}>See all</Text>
+          <Text style={styles.sectionTitle}>Best Selling</Text>
+          <Text style={styles.seeAll}>See all</Text>
         </View>
-
         <FlatList
           data={banners}
           keyExtractor={item => item.id}
@@ -178,17 +183,19 @@ const ShopScreen = () => {
           contentContainerStyle={styles.listContainer}
           ListEmptyComponent={
             <View style={styles.emptyBox}>
-              <Text style={styles.emptyText}>No categories found 🥲</Text>
+              <Text style={styles.emptyText}>No categories found</Text>
             </View>
           }
-          renderItem={({ item }) => <ProductCard />}
+          renderItem={({ item }) => (
+            <ProductCard onPress={() => handleProductPress(item)} />
+          )}
         />
 
+        {/*Groceries */}
         <View style={styles.textRow}>
-          <Text style={styles.locationIcon}>Groceries</Text>
-          <Text style={styles.locationText}>See all</Text>
+          <Text style={styles.sectionTitle}>Groceries</Text>
+          <Text style={styles.seeAll}>See all</Text>
         </View>
-
         <FlatList
           data={banners}
           keyExtractor={item => item.id}
@@ -197,10 +204,12 @@ const ShopScreen = () => {
           contentContainerStyle={styles.listContainer}
           ListEmptyComponent={
             <View style={styles.emptyBox}>
-              <Text style={styles.emptyText}>No categories found 🥲</Text>
+              <Text style={styles.emptyText}>No categories found</Text>
             </View>
           }
-          renderItem={({ item }) => <ProductCard />}
+          renderItem={({ item }) => (
+            <ProductCard onPress={() => handleProductPress(item)} />
+          )}
         />
       </ScrollView>
     </SafeAreaView>
@@ -310,21 +319,28 @@ const styles = StyleSheet.create({
     width: 8,
     backgroundColor: '#a0c4b8',
   },
-
   emptyBox: { alignItems: 'center', marginTop: 60 },
   emptyText: { fontSize: 16, color: '#9aa8b8' },
-
   listContainer: {
     paddingHorizontal: 16,
     paddingVertical: 12,
     gap: 12,
   },
-
   textRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     paddingHorizontal: 16,
+  },
+  sectionTitle: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#1a2533',
+  },
+  seeAll: {
+    fontSize: 14,
+    color: '#2e7d6e',
+    fontWeight: '500',
   },
 });
 

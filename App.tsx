@@ -1,12 +1,16 @@
 import React from 'react';
 import { Provider } from 'react-redux';
-import { store } from './src/screens/redux/store';
+import { PersistGate } from 'redux-persist/integration/react';
+import { store, persistor } from './src/screens/redux/store';
+import { ActivityIndicator } from 'react-native';
 import RootNavigator from './src/navigation/RootNavigator';
 
 export default function App() {
   return (
     <Provider store={store}>
-      <RootNavigator />
+      <PersistGate loading={<ActivityIndicator />} persistor={persistor}>
+        <RootNavigator />
+      </PersistGate>
     </Provider>
   );
 }

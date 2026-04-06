@@ -14,6 +14,7 @@ type ProductCardProps = {
   price?: string;
   image?: any;
   onAddToCart?: () => void;
+  onPress?: () => void;
 };
 
 const ProductCard = ({
@@ -22,6 +23,7 @@ const ProductCard = ({
   price = '$4.99',
   image = require('../../assets/onboardingBG.png'),
   onAddToCart,
+  onPress,
 }: ProductCardProps) => {
   const [added, setAdded] = useState(false);
 
@@ -32,31 +34,36 @@ const ProductCard = ({
   };
 
   return (
-    <View style={styles.card}>
-      {/* Product Image */}
-      <View style={styles.imageContainer}>
-        <Image source={image} style={styles.image} resizeMode="cover" />
-      </View>
+    <TouchableOpacity onPress={onPress} activeOpacity={0.85}>
+      <View style={styles.card}>
+        {/* Product Image */}
+        <View style={styles.imageContainer}>
+          <Image source={image} style={styles.image} resizeMode="cover" />
+        </View>
 
-      {/* Product Info */}
-      <View style={styles.infoContainer}>
-        <Text style={styles.name} numberOfLines={2}>
-          {name}
-        </Text>
-        <Text style={styles.unit}>{unit}</Text>
-      </View>
+        {/* Product Info */}
+        <View style={styles.infoContainer}>
+          <Text style={styles.name} numberOfLines={2}>
+            {name}
+          </Text>
+          <Text style={styles.unit}>{unit}</Text>
+        </View>
 
-      {/* Price + Add Button */}
-      <View style={styles.bottomRow}>
-        <Text style={styles.price}>{price}</Text>
-        <Pressable
-          style={[styles.addButton, added && styles.addButtonPressed]}
-          onPress={handleAdd}
-        >
-          <Text style={styles.addButtonText}>+</Text>
-        </Pressable>
+        {/* Price + Add Button */}
+        <View style={styles.bottomRow}>
+          <Text style={styles.price}>{price}</Text>
+          <Pressable
+            style={[styles.addButton, added && styles.addButtonPressed]}
+            onPress={e => {
+              e.stopPropagation?.();
+              handleAdd();
+            }}
+          >
+            <Text style={styles.addButtonText}>+</Text>
+          </Pressable>
+        </View>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 };
 
