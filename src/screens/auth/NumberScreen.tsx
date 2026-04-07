@@ -127,10 +127,9 @@ const NectarLoginScreen = ({ navigation }: any) => {
             <TouchableOpacity
               style={styles.socialButton}
               activeOpacity={0.85}
-              onPress={() => console.log('Google Sign In')}
+              onPress={() => navigation?.replace('LoginScreen')}
             >
-              <Text style={styles.googleIcon}>G</Text>
-              <Text style={styles.socialButtonText}>Continue with Google</Text>
+              <Text style={styles.socialButtonText}>LOGIN</Text>
             </TouchableOpacity>
 
             {/* Facebook Sign In Button */}

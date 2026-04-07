@@ -15,10 +15,9 @@ export interface CartItemData {
   image: string;
 }
    
-  export interface CartItemWithQty extends CartItemData {
-    quantity: number;
-  }
-
+export interface CartItemWithQty extends CartItemData {
+  quantity: number;
+}
   
 interface Props {
   item: CartItemWithQty;

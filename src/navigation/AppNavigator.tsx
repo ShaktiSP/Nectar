@@ -9,7 +9,6 @@ const Stack = createNativeStackNavigator();
 export default function AppNavigator() {
   return (
 
-    <NavigationContainer>
       <Stack.Navigator>
         <Stack.Screen
           name="BottomTabs"
@@ -22,6 +21,6 @@ export default function AppNavigator() {
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
-    </NavigationContainer>
+    
   );
 }

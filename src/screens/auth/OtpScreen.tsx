@@ -32,7 +32,7 @@ const CodeInputScreen: React.FC<CodeInputScreenProps> = ({
 
   const handleSubmit = (): void => {
     if (code.length === 4) {
-      navigation.replace('LocationSelector', { code });
+      navigation?.replace('LocationSelector', { code });
       if (onCodeSubmit) {
         onCodeSubmit(code);
       }

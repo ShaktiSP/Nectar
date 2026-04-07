@@ -15,7 +15,7 @@ const Stack = createNativeStackNavigator();
 
 export default function AuthNavigator({ initialRoute }: { initialRoute: string }) {
   return (
-    <NavigationContainer>
+  
       <Stack.Navigator initialRouteName={initialRoute}>
         <Stack.Screen
           name="SplashScreen"
@@ -58,6 +58,5 @@ export default function AuthNavigator({ initialRoute }: { initialRoute: string }
           options={{ headerShown: false }}
         />
       </Stack.Navigator>
-    </NavigationContainer>
   );
 }

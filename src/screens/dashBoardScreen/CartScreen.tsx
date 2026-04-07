@@ -3,7 +3,7 @@ import {
   View, Text, StyleSheet, TouchableOpacity,
   FlatList, SafeAreaView, StatusBar, Alert,
 } from 'react-native';
-import { useAppDispatch, useAppSelector } from '../redux/hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/hooks';
 import { removeItem, updateQty } from '../redux/cartSlice';
 import CartItem, { CartItemWithQty } from '../itemScreen/Cartitem';
 

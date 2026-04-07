@@ -8,6 +8,9 @@ import {
   StyleSheet,
   SafeAreaView,
 } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useAppDispatch } from '../../hooks/hooks';
+import { setLoggedIn } from '../redux/appSlice';
 
 type MenuItem = {
   id: string;
@@ -43,7 +46,19 @@ const MenuRow = ({
   </TouchableOpacity>
 );
 
-const AccountScreen = () => {
+const AccountScreen = ({ navigation }: any) => {
+
+  const dispatch = useAppDispatch();
+
+  const handleLogout = async () => {
+    await AsyncStorage.removeItem('accessToken');
+    await AsyncStorage.removeItem('refreshToken');
+    
+    AsyncStorage.setItem('isLoggedIn', 'flase');
+    dispatch(setLoggedIn(false));       
+    navigation.navigate('NumberScreen');
+  };
+
   return (
     <SafeAreaView style={styles.safeArea}>
       <ScrollView
@@ -92,18 +107,13 @@ const AccountScreen = () => {
         {/* ── Log Out ── */}
         <TouchableOpacity
           style={styles.button}
-        
+          onPress={handleLogout}
           activeOpacity={0.7}
         >
-          {/* Left Icon */}
           <View style={styles.iconWrapper}>
             <Text style={styles.icon}>↪</Text>
           </View>
-
-          {/* Centered Label */}
           <Text style={styles.label}>Log Out</Text>
-
-          {/* Right spacer — same width as icon to keep text trul centered */}
           <View style={styles.iconWrapper} />
         </TouchableOpacity>
       </ScrollView>

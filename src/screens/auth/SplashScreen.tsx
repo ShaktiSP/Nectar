@@ -5,7 +5,7 @@ import {
   SafeAreaView,
   Image,
 } from 'react-native';
-import { useAppDispatch } from '../redux/hooks';
+import { useAppDispatch } from '../../hooks/hooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { setLoggedIn, setOnboardingCompleted } from '../redux/appSlice';
 
@@ -22,12 +22,12 @@ const SplashScreen = ({ navigation }: any) => {
 
       if (login === 'true') {
         dispatch(setLoggedIn(true));
-        navigation.replace('BottomTabs');
+        navigation?.replace('BottomTabs');
       } else {
-        navigation.replace('NumberScreen');
+        navigation?.replace('NumberScreen');
       }
     } else {
-      navigation.replace('OnBoardingScreen');
+      navigation?.replace('OnBoardingScreen');
     }
   };
 

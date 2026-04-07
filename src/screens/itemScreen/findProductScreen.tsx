@@ -13,13 +13,9 @@ const { width } = Dimensions.get('window');
 const CARD_SIZE = (width - 48) / 2;  // same formula as ExploreScreen
 
 interface Category {
-  id: string;
   title: string;
   subtitle?: string;
   image: string;
-  bgColor: string;
-  borderColor: string;
-  shadowColor: string;
 }
 
 const FindProduceScreen = ({
@@ -33,9 +29,9 @@ const FindProduceScreen = ({
     style={[
       styles.card,
       {
-        backgroundColor: item.bgColor,
-        borderColor: item.borderColor,
-        shadowColor: item.shadowColor,
+        backgroundColor: '#f0f4ff',
+        borderColor: '#c7d2fe',
+        shadowColor: '#6366f1', 
       },
     ]}
     onPress={() => onPress(item)}
@@ -46,12 +42,12 @@ const FindProduceScreen = ({
       <Image
         source={{ uri: item.image }}
         style={styles.image}
-        resizeMode="contain"
+        resizeMode="cover"
       />
     </View>
 
     {/* Divider */}
-    <View style={[styles.divider, { backgroundColor: item.borderColor }]} />
+    <View style={[styles.divider]} />
 
     {/* Text Area */}
     <View style={styles.textContainer}>
@@ -70,6 +66,7 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     paddingTop: 16,
     paddingBottom: 16,
+    marginBottom: 10,
     paddingHorizontal: 10,
     alignItems: 'center',
     shadowOffset: { width: 0, height: 4 },
@@ -97,7 +94,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 13,       // ✅ chhota font — grid ke liye sahi
+    fontSize: 13,
     fontWeight: '800',
     color: '#1a2e24',
     lineHeight: 18,

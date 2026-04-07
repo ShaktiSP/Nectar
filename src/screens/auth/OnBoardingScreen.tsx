@@ -8,7 +8,7 @@ import {
   SafeAreaView,
   Image,
 } from 'react-native';
-import { useAppDispatch } from '../redux/hooks';
+import { useAppDispatch } from '../../hooks/hooks';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { setOnboardingCompleted } from '../redux/appSlice';
 

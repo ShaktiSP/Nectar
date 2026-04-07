@@ -1,26 +1,36 @@
-import React, { useState } from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
   TextInput,
   TouchableOpacity,
   StyleSheet,
-  SafeAreaView,
   StatusBar,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
+  ActivityIndicator,
+  SafeAreaView,
+  ToastAndroid,
 } from 'react-native';
-import { useAppDispatch } from '../redux/hooks';
+
+// Custom hooks & utilities
+import { useAppDispatch } from '../../hooks/hooks';
 import { setLoggedIn } from '../redux/appSlice';
 import { fp, hp, wp } from '../../appUtils/Dimensions';
+import useLogin from '../../hooks/Uselogin';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+/* ======================================================
+   Reusable UI Components
+====================================================== */
 
+// App logo (emoji based)
 const CarrotLogo = () => (
   <Text style={{ fontSize: fp(6.5), lineHeight: hp(7.5) }}>🥕</Text>
 );
 
+// Password visibility icons
 const EyeOffIcon = () => (
   <Text style={{ fontSize: fp(2), color: '#bbb' }}>🙈</Text>
 );
@@ -29,18 +39,105 @@ const EyeOnIcon = () => (
   <Text style={{ fontSize: fp(2), color: '#5cb85c' }}>👁️</Text>
 );
 
-export default function LoginScreen({ navigation }: any) {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+
+/* ======================================================
+   Helper Functions
+====================================================== */
+
+// Show Android toast message
+const showToast = (message) => {
+  ToastAndroid.showWithGravity(
+    message,
+    ToastAndroid.SHORT,
+    ToastAndroid.CENTER
+  );
+};
+
+// Basic email validation
+const isValidEmail = (email) => {
+  const regex = /^\S+@\S+\.\S+$/;
+  return regex.test(email);
+};
+
+/* ======================================================
+   Main Component
+====================================================== */
+
+export default function LoginScreen({ navigation }) {
+  const dispatch = useAppDispatch();
+
+  // Local UI states
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [emailFocused, setEmailFocused] = useState(false);
   const [passwordFocused, setPasswordFocused] = useState(false);
-  const dispatch = useAppDispatch();
+
+  // Custom login hook
+  const {
+    username: email,
+    password,
+    setUsername: setEmail,
+    setPassword,
+    login,
+    isLoading,
+    isError,
+    error,
+    isSuccess,
+  } = useLogin();
+
+  /* ======================================================
+     Side Effects
+  ====================================================== */
+
+  // Handle successful login
+  useEffect(() => {
+    const handleLoginSuccess = async () => {
+      if (isSuccess) {
+        const value = await AsyncStorage.getItem('accessToken');
+        console.log('Access Token:', value);
+        showToast('Login Successful');
+        AsyncStorage.setItem('isLoggedIn', 'true');
+        dispatch(setLoggedIn(true));
+       // navigation.navigate('BottomTabs');
+      }
+    };
+  
+    handleLoginSuccess();
+  }, [isSuccess]);
+
+  // Handle login error
+  useEffect(() => {
+    if (isError && error) {
+      showToast(error);
+    }
+  }, [isError]);
+
+  /* ======================================================
+     Validation + Submit
+  ====================================================== */
+
+  const handleLogin = () => {
+    // Email validation
+ //   if (!email) return showToast('Email is required');
+ //   if (!isValidEmail(email)) return showToast('Enter a valid email');
+
+    // Password validation
+    if (!password) return showToast('Password is required');
+    if (password.length < 6)
+      return showToast('Password must be at least 6 characters');
+
+    // Call login API
+    login();
+  };
+
+  /* ======================================================
+     Render UI
+  ====================================================== */
 
   return (
     <SafeAreaView style={styles.safeArea}>
       <StatusBar barStyle="dark-content" backgroundColor="#edf2ed" />
 
+      {/* Background decorative blobs */}
       <View style={[styles.blob, styles.blobTL]} />
       <View style={[styles.blob, styles.blobTR]} />
       <View style={[styles.blob, styles.blobBL]} />
@@ -55,16 +152,28 @@ export default function LoginScreen({ navigation }: any) {
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
+
+          {/* Logo */}
           <View style={styles.logoContainer}>
             <CarrotLogo />
           </View>
 
+          {/* Title */}
           <Text style={styles.title}>Login</Text>
-          <Text style={styles.subtitle}>Enter your email and password</Text>
+          <Text style={styles.subtitle}>
+            Enter your email and password
+          </Text>
 
+          {/* Email Input */}
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Email</Text>
-            <View style={[styles.inputWrap, emailFocused && styles.inputWrapFocused]}>
+            <View
+              style={[
+                styles.inputWrap,
+                emailFocused && styles.inputWrapFocused,
+                isError && styles.inputWrapError,
+              ]}
+            >
               <TextInput
                 style={styles.input}
                 value={email}
@@ -75,13 +184,21 @@ export default function LoginScreen({ navigation }: any) {
                 placeholderTextColor="#ccc"
                 onFocus={() => setEmailFocused(true)}
                 onBlur={() => setEmailFocused(false)}
+                editable={!isLoading}
               />
             </View>
           </View>
 
+          {/* Password Input */}
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Password</Text>
-            <View style={[styles.inputWrap, passwordFocused && styles.inputWrapFocused]}>
+            <View
+              style={[
+                styles.inputWrap,
+                passwordFocused && styles.inputWrapFocused,
+                isError && styles.inputWrapError,
+              ]}
+            >
               <TextInput
                 style={[styles.input, { flex: 1 }]}
                 value={password}
@@ -91,36 +208,50 @@ export default function LoginScreen({ navigation }: any) {
                 placeholderTextColor="#ccc"
                 onFocus={() => setPasswordFocused(true)}
                 onBlur={() => setPasswordFocused(false)}
+                editable={!isLoading}
               />
+
+              {/* Toggle password visibility */}
               <TouchableOpacity
                 onPress={() => setPasswordVisible(!passwordVisible)}
                 style={styles.eyeBtn}
-                activeOpacity={0.7}
               >
                 {passwordVisible ? <EyeOnIcon /> : <EyeOffIcon />}
               </TouchableOpacity>
             </View>
           </View>
 
-          <TouchableOpacity style={styles.forgotContainer} activeOpacity={0.7}>
+          {/* Forgot Password */}
+          <TouchableOpacity style={styles.forgotContainer}>
             <Text style={styles.forgotText}>Forgot Password?</Text>
           </TouchableOpacity>
 
+          {/* Login Button */}
           <TouchableOpacity
-            style={styles.loginBtn}
-            activeOpacity={0.85}
-            onPress={() => {
-              AsyncStorage.setItem('isLoggedIn', 'true');
-              dispatch(setLoggedIn(true));
-              navigation.navigate('BottomTabs');
-            }}
+            style={[styles.loginBtn, isLoading && styles.loginBtnDisabled]}
+            onPress={handleLogin}
+            disabled={isLoading}
           >
-            <Text style={styles.loginBtnText}>Log In</Text>
+            {isLoading ? (
+              <View style={styles.loadingRow}>
+                <ActivityIndicator color="#fff" size="small" />
+                <Text style={[styles.loginBtnText, { marginLeft: wp(2) }]}>
+                  Logging in...
+                </Text>
+              </View>
+            ) : (
+              <Text style={styles.loginBtnText}>Log In</Text>
+            )}
           </TouchableOpacity>
 
+          {/* Signup Navigation */}
           <View style={styles.signupRow}>
-            <Text style={styles.signupText}>Don't have an account? </Text>
-            <TouchableOpacity activeOpacity={0.7} onPress={() => navigation.navigate('SignUpScreen')}>
+            <Text style={styles.signupText}>
+              Don't have an account?{' '}
+            </Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('SignUpScreen')}
+            >
               <Text style={styles.signupLink}>Signup</Text>
             </TouchableOpacity>
           </View>
@@ -130,26 +261,21 @@ export default function LoginScreen({ navigation }: any) {
   );
 }
 
+/* ======================================================
+   Styles (unchanged for UI consistency)
+====================================================== */
+
 const styles = StyleSheet.create({
-  safeArea: {
-    flex: 1,
-    backgroundColor: '#edf2ed',
-  },
-  kav: {
-    flex: 1,
-  },
+  safeArea: { flex: 1, backgroundColor: '#edf2ed' },
+  kav: { flex: 1 },
   scrollContent: {
     flexGrow: 1,
-    paddingHorizontal: wp(7.5),  
-    paddingTop: hp(7.5),          
-    paddingBottom: hp(5),        
+    paddingHorizontal: wp(7.5),
+    paddingTop: hp(7.5),
+    paddingBottom: hp(5),
   },
 
-  // Blobs
-  blob: {
-    position: 'absolute',
-    borderRadius: 999,
-  },
+  blob: { position: 'absolute', borderRadius: 999 },
   blobTL: {
     top: hp(-8.75),
     left: wp(-17.5),
@@ -179,36 +305,27 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(195, 240, 205, 0.38)',
   },
 
-  // Logo
-  logoContainer: {
-    alignItems: 'center',
-    marginBottom: hp(4),          
-  },
+  logoContainer: { alignItems: 'center', marginBottom: hp(4) },
 
-  // Title
   title: {
-    fontSize: fp(3.25),           
+    fontSize: fp(3.25),
     fontWeight: '800',
     color: '#1a1a1a',
     marginBottom: hp(0.5),
   },
   subtitle: {
-    fontSize: fp(1.5),            
+    fontSize: fp(1.5),
     color: '#aaa',
     fontWeight: '500',
-    marginBottom: hp(4),
+    marginBottom: hp(2.5),
   },
 
-  // Input
-  inputGroup: {
-    marginBottom: hp(2.75),       
-  },
+  inputGroup: { marginBottom: hp(2.75) },
   label: {
-    fontSize: fp(1.4),            
+    fontSize: fp(1.4),
     color: '#888',
     fontWeight: '600',
     marginBottom: hp(1),
-    letterSpacing: 0.3,
   },
   inputWrap: {
     flexDirection: 'row',
@@ -216,22 +333,19 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1.5,
     borderBottomColor: '#dde5dd',
   },
-  inputWrapFocused: {
-    borderBottomColor: '#5cb85c',
-  },
+  inputWrapFocused: { borderBottomColor: '#5cb85c' },
+  inputWrapError: { borderBottomColor: '#DC2626' },
   input: {
-    paddingVertical: hp(1.25),    
-    fontSize: fp(1.8),           
+    paddingVertical: hp(1.25),
+    fontSize: fp(1.8),
     color: '#1a1a1a',
     fontWeight: '600',
   },
   eyeBtn: {
     paddingLeft: wp(2.5),
     paddingVertical: hp(0.5),
-    justifyContent: 'center',
   },
 
-  // Forgot
   forgotContainer: {
     alignItems: 'flex-end',
     marginTop: hp(0.75),
@@ -243,27 +357,22 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
 
-  // Login Button
   loginBtn: {
     backgroundColor: '#5cb85c',
     borderRadius: 50,
-    paddingVertical: hp(2),       
+    paddingVertical: hp(2),
     alignItems: 'center',
     marginBottom: hp(3),
-    shadowColor: '#5cb85c',
-    shadowOffset: { width: 0, height: hp(1) },
-    shadowOpacity: 0.38,
-    shadowRadius: 16,
     elevation: 8,
   },
+  loginBtnDisabled: { opacity: 0.75 },
   loginBtnText: {
     color: '#fff',
-    fontSize: fp(1.875),          
+    fontSize: fp(1.875),
     fontWeight: '700',
-    letterSpacing: 0.3,
   },
+  loadingRow: { flexDirection: 'row', alignItems: 'center' },
 
-  // Signup
   signupRow: {
     flexDirection: 'row',
     justifyContent: 'center',
@@ -272,7 +381,6 @@ const styles = StyleSheet.create({
   signupText: {
     fontSize: fp(1.5),
     color: '#bbb',
-    fontWeight: '500',
   },
   signupLink: {
     fontSize: fp(1.5),
