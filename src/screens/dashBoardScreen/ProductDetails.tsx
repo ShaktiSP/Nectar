@@ -587,6 +587,3 @@ const styles = StyleSheet.create({
 
 export default ProductDetails;
 
-function alert(arg0: string) {
-  throw new Error('Function not implemented.');
-}

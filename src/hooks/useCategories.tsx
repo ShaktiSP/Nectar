@@ -1,11 +1,8 @@
 import { useState, useCallback, useEffect } from 'react';
-
-
 import { isConnected } from '../appUtils/Networkutils';
 import { parseApiError } from '../appUtils/Errorutils';
 import { CategoryApiModel } from '../data/CategoryModel';
 import { getCategories } from '../api/CategoryApi';
-
 
 const INITIAL_STATE = {
   status: 'idle',
@@ -27,7 +24,6 @@ const useCategories = () => {
       });
       return;
     }
-
     setState(prev => ({ ...prev, status: 'loading', error: null }));
 
     try {
@@ -37,6 +33,7 @@ const useCategories = () => {
         data: apiData,
         error: null,
       });
+      console.log(apiData,"fjdhdhdhdh")
     } catch (err) {
       const message = parseApiError(err);
 
@@ -47,11 +44,9 @@ const useCategories = () => {
       });
     }
   }, []);
-
   useEffect(() => {
     fetchCategories();
   }, []);
-
   return {
     categories: state.data,
     status: state.status,

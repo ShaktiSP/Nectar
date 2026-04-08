@@ -11,6 +11,7 @@ export default function App() {
     
     <Provider store={store}>
       <PersistGate loading={<ActivityIndicator />} persistor={persistor}>
+        
         <RootNavigator />
         <Toast />
       </PersistGate>

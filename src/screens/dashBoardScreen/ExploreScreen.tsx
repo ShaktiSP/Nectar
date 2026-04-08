@@ -11,13 +11,14 @@ import {
 import useCategories from '../../hooks/useCategories';
 import FindProduceScreen from '../itemScreen/findProductScreen';
 import { TouchableOpacity } from 'react-native';
-
+import { useNavigation } from '@react-navigation/native';
 
 const { width } = Dimensions.get('window');
 const CARD_SIZE = (width - 48) / 2; // 2 columns + 3 gaps of 16px
 
 const ExploreScreen = () => {
   const [search, setSearch] = useState('');
+  const navigation = useNavigation<any>();
   const { categories, isLoading, isError, error } = useCategories();
 
   const filteredData = categories.filter(item =>
@@ -25,14 +26,12 @@ const ExploreScreen = () => {
   );
 
   const handlePress = (item: any) => {
-    console.log('Category:', item.slug);
-    // fetch(item.url)
-  };
+    // console.log('Category:', item.slug);
 
-  if (isLoading) return <Text style={styles.center}>Loading...</Text>;
-  if (isError) return <Text style={styles.center}>{error}</Text>;
+    navigation.navigate('CategoryListScreen', {category: item,});
+  };``
 
-  return (
+  return ( 
     <SafeAreaView style={styles.safe}>
   <Text style={styles.header}>Categories</Text>
 
