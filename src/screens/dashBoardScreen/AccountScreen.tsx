@@ -54,7 +54,7 @@ const AccountScreen = ({ navigation }: any) => {
     await AsyncStorage.removeItem('accessToken');
     await AsyncStorage.removeItem('refreshToken');
     
-    AsyncStorage.setItem('isLoggedIn', 'flase');
+    AsyncStorage.setItem('isLoggedIn', 'false');
     dispatch(setLoggedIn(false));       
     navigation.navigate('NumberScreen');
   };

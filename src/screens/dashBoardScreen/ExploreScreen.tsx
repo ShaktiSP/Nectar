@@ -29,7 +29,7 @@ const ExploreScreen = () => {
     // console.log('Category:', item.slug);
 
     navigation.navigate('CategoryListScreen', {category: item,});
-  };``
+  };
 
   return ( 
     <SafeAreaView style={styles.safe}>
